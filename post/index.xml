@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Caprice&#39;s Blog</title>
+    <link>/post/index.xml</link>
+    <description>Recent content in Posts on Caprice&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 Sep 2017 13:24:38 -0400</lastBuildDate>
+    <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Probabilistic View of Software-Engineer Job Market</title>
+      <link>/2017/09/10/probabilistic-view-of-software-engineer-job-market/</link>
+      <pubDate>Sun, 10 Sep 2017 13:24:38 -0400</pubDate>
+      
+      <guid>/2017/09/10/probabilistic-view-of-software-engineer-job-market/</guid>
+      <description>
+
+&lt;!-- https://github.com/rstudio/blogdown/blob/master/docs/01-introduction.Rmd --&gt;
+
+&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+
+&lt;p&gt;I like probability and statistics in that they are useful for organizing thoughts and details. This blog post is an attempt to use those mathmatical frameworks to understand complex things surrounding us like US software-engineer job market.&lt;/p&gt;
+
+&lt;h2 id=&#34;why-job-market&#34;&gt;Why job market?&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;m looking for a full-time job and having a motivation for figuring out how things are connected to each other.&lt;/p&gt;
+
+&lt;h2 id=&#34;formalization&#34;&gt;Formalization&lt;/h2&gt;
+
+&lt;p&gt;Let &lt;code&gt;$\mathbf{C}$&lt;/code&gt; and &lt;code&gt;$\mathbf{J}$&lt;/code&gt; be the sets of software-engineer &lt;strong&gt;job candidates&lt;/strong&gt; and &lt;strong&gt;job positions&lt;/strong&gt;, respectively. For notational conventions, I use two numbers &lt;code&gt;$n$&lt;/code&gt; and &lt;code&gt;$m$&lt;/code&gt; as &lt;code&gt;$|\mathbf{C}| = n$&lt;/code&gt; and &lt;code&gt;$|\mathbf{J}| = m$&lt;/code&gt;. Then, &lt;strong&gt;the US job market&lt;/strong&gt; &lt;code&gt;$\mathbf{U}$&lt;/code&gt; is a tuple of candidates and positions, that is, &lt;code&gt;$ \mathbf{U} = (\mathbf{C}, \mathbf{J})$&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let &lt;code&gt;$Y_{ij}$&lt;/code&gt; (&lt;code&gt;$i \in \{1, 2, \ldots, n\} = \mathbf{C}, j \in \{1, 2, \ldots, m\} = \mathbf{J}$&lt;/code&gt;) be a random variable denoting a job offer to a candidate &lt;code&gt;$i$&lt;/code&gt; for a software-engineer position &lt;code&gt;$j$&lt;/code&gt;. The statement &lt;code&gt;$Y_{ij} = 1$&lt;/code&gt; means &amp;ldquo;an i-th candidate got the j-th job offer&amp;rdquo; and &lt;code&gt;$Y_{ij} = 0$&lt;/code&gt; means &amp;ldquo;the company didn&amp;rsquo;t provide the candidate an offer&amp;rdquo;. Note that &lt;code&gt;$\sum_{i = 1}^{n}{Y_{ij}} = 1$&lt;/code&gt; does not necessarily hold since some positions are offered to multiple candidates.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$Y_{ij}$&lt;/code&gt; can be decomposed into four binary random variables, &lt;code&gt;$A_{ij}$&lt;/code&gt;, &lt;code&gt;$S_{ij}$&lt;/code&gt;, &lt;code&gt;$C_{ij}$&lt;/code&gt;, and &lt;code&gt;$R_{ij}$&lt;/code&gt;. For simplicity, I will write them by &lt;code&gt;$Y$&lt;/code&gt;, &lt;code&gt;$A$&lt;/code&gt;, &lt;code&gt;$S$&lt;/code&gt;, &lt;code&gt;$C$&lt;/code&gt;, and &lt;code&gt;$R$&lt;/code&gt;, respectively (only for &lt;code&gt;$Y$&lt;/code&gt;, I&amp;rsquo;ll sometimes write explicitly as &lt;code&gt;$Y_{ij}$&lt;/code&gt;, though.) These four variables encode whether the candidate goes through the processes of &lt;strong&gt;Application&lt;/strong&gt;, &lt;strong&gt;Screening&lt;/strong&gt;, &lt;strong&gt;Coding Interview&lt;/strong&gt;, and &lt;strong&gt;Remaining Processes&lt;/strong&gt;, respectively. For example, &lt;code&gt;$A = 1$&lt;/code&gt; means the candidate applied to a job position, and &lt;code&gt;$A = 0$&lt;/code&gt; means he or she did not. And &lt;code&gt;$S = 1$&lt;/code&gt; means &amp;ldquo;the candidate passed Screening.&amp;rdquo; Screening can have multiple phases like resume screening and then background screening (e.g. GPA), but here we simply denote them by a single variable &lt;code&gt;$S$&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To put it another way, the random variable &lt;code&gt;$Y_{ij}$&lt;/code&gt; can be described as a random vector &lt;code&gt;$\mathbf{Y}_{ij} = (A, S, C, R)$&lt;/code&gt;. The random variable &lt;code&gt;$Y_{ij}$&lt;/code&gt; takes a value of 1 if and only if its corresponding random vector &lt;code&gt;$\mathbf{Y}_{ij}$&lt;/code&gt; takes the value of &lt;code&gt;$(1, 1, 1, 1)$&lt;/code&gt;. Random varibles &lt;code&gt;$Y_{ij}$&lt;/code&gt; are useful for examining &lt;strong&gt;results&lt;/strong&gt; (offer or not), and random vectors &lt;code&gt;$\mathbf{Y}_{ij}$&lt;/code&gt; are useful for examining &lt;strong&gt;processes&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;As we are interested in getting the position, we would implicitly or explicitly think about the probability that the company provides a (j-th) job offer to a particular candidate &lt;code&gt;$i$&lt;/code&gt; with a technical skill set &lt;code&gt;$\mathbf{X}_i$&lt;/code&gt;. That is, &lt;code&gt;$P(\mathbf{Y}_{ij} = \mathbf{1} | \mathbf{X}_i)$&lt;/code&gt;. Then, you would try to know more about this probability by looking at some numbers on news websites, by asking friends who got their positions recently, or by integrating all the information you obtained. Or, you might focus on expanding your skill set &lt;code&gt;$\mathbf{X}_i$&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;BY using a formula for decomposing joint probability into the product of conditional and merginal probabilities, we can make our inference as the following equalities:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$$
+\begin{align}
+P( \mathbf{Y} | \mathbf{X}_i )
+ &amp;amp; = P( A, S, C, R | \mathbf{X}_i ) 
+ \\ &amp;amp; = P(A | \mathbf{X}_i ) P(S | \mathbf{X}_i, A)
+ \\ &amp;amp; \ \ \ \ \ P(C | \mathbf{X}_i, A, S ) P(R | \mathbf{X}_i, A, S, C)
+\end{align}
+$$&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$P(A, S, C, R)$&lt;/code&gt; is a four-dimensional discrete probability distribution which underlies everywhere in the (software-engineer) US job markets, and &lt;code&gt;$P(A, S, C, R | \mathbf{X}_i)$&lt;/code&gt; is its personalized version. In other words, for a candidate having a skill set &lt;code&gt;$X_i$&lt;/code&gt;, how hard is it to get the job? Everything you obtained from various information sources can be embedded in this framework or its varients. While more sophisticated formalizations are possible, I am happy enough with this (over-)simplified view; that is, this model basically claims if you apply for a job (&lt;code&gt;$A = 1$&lt;/code&gt;), pass Screening (&lt;code&gt;$S = 1$&lt;/code&gt;), show your coding skills in Coding Interviews (&lt;code&gt;$C = 1$&lt;/code&gt;), and do reasonably well whatever you are asked during the Remaining Processes (&lt;code&gt;$R = 1$&lt;/code&gt;), you would get a job offer (&lt;code&gt;$\mathbf{Y} = \mathbf{1}$&lt;/code&gt;). If we consider each &lt;code&gt;$Y$&lt;/code&gt; is an &amp;ldquo;edge&amp;rdquo; between a candidate node &lt;code&gt;$i$&lt;/code&gt; and a job position node &lt;code&gt;$j$&lt;/code&gt;, &lt;code&gt;$\mathbf{Y} = \mathbf{1}$&lt;/code&gt; means we draw an edge between the two nodes in a &lt;a href=&#34;https://en.wikipedia.org/wiki/Bipartite_graph&#34;&gt;Bipartite graph&lt;/a&gt; &lt;code&gt;$\mathbf{U} = (\mathbf{C}, \mathbf{J}, \mathbf{Y}) $&lt;/code&gt; where &lt;code&gt;$\mathbf{Y}$&lt;/code&gt; is a n x m matrix whose (i, j) element is &lt;code&gt;$Y_{ij}$&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We could discuss any part of this probabilistic model, and I will pick &lt;code&gt;$P(A | \mathbf{X}_i )$&lt;/code&gt; as an example for getting the sense of the job market&amp;rsquo;s mechanism.&lt;/p&gt;
+
+&lt;h2 id=&#34;about-p-a-mathbf-x-i&#34;&gt;About &lt;code&gt;$P(A | \mathbf{X}_i )$&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;$P(A | \mathbf{X}_i )$&lt;/code&gt; is a probability distribution showing how likely the candidate will apply to a particular position, given the candidate&amp;rsquo;s technical skill set.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;Isn&amp;rsquo;t that just the problem of willpower and braveness?&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Well, it&amp;rsquo;s actually not. What I observed is the application variable &lt;code&gt;$A \in \{0, 1\}$&lt;/code&gt; can automatically become zero or one irrespective of whether we want to apply for the job. There are at least two factors:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Reference&lt;/strong&gt;: I got several job interviews via references, most of them were not in the public job markets such as company&amp;rsquo;s websites. Therefore, there was almost no hope to know about the positions through the Internet. This seems to happen in the case that the company&amp;rsquo;s &lt;strong&gt;founders already belong to large existing developer communities&lt;/strong&gt;; they can quickly recruit trustable developers from previous communities. An interesting aspect of this hiring process is that your technical skill set &lt;code&gt;$\mathbf{X}_i$&lt;/code&gt; affects only when you have some access to the community. No matter how skilled you are in the particular tasks, your &lt;code&gt;$P(A | \mathbf{X}_i )$&lt;/code&gt; would be zero unless you are in the developer community. This suggests even if you are not actively applying to jobs, it might be better to belong to communities and converse with others for potential career paths. From that perspective, &lt;code&gt;$A = 1$&lt;/code&gt; does not actually mean &amp;ldquo;the candidate applied to a job position&amp;rdquo; but means &lt;strong&gt;&amp;ldquo;the engineer is recognized by recruiters as a potential candidate.&amp;rdquo;&lt;/strong&gt; Willpower cannot make deterministically the variable &lt;code&gt;$A$&lt;/code&gt; take a particular value. Also, having lots of automatic job applications could be annoying &amp;ndash; I know one person who is working in a prestegious company and gets tons of recruiting messages.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- I saw PhD students tend to get their positions through their faculty advisors; becoming a PhD student already requires lots of skills and achievements, so it depends on our formalization whether &#34;being a researcher in academia&#34; is in `$\mathbf{X}_j$`. I wonder if this sometimes leads to inefficiency because some master/undergrad students had multi-year (research) experience in industry, and they could be the best match for the position. But I know, hiring process is not afraid of false negatives; contacting PhD students is the safest bet. --&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;The number of job posting websites you know&lt;/strong&gt;: while I browsed several job posting sites last year, I found that some companies posted their job descriptions only in subsets of websites. They might want to get a small number of candidates (because some companies get a tremendous number of applications), they might be doing A/B tests for job posting sites, or they thought posting to hundreds of websites is not worth their time. Regardless of the truths, if you don&amp;rsquo;t find a particular post for the job &lt;code&gt;$i$&lt;/code&gt;, your &lt;code&gt;$P(A = 1 | \mathbf{X}_i )$&lt;/code&gt; is zero unless you get some referrals.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;discussion&#34;&gt;Discussion&lt;/h3&gt;
+
+&lt;p&gt;There are several other thoughts about &lt;code&gt;$P( A, S, C, R | \mathbf{X}_i ) $&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If we measure KL-divergence between the unconditional &lt;code&gt;$P(A, S, C, R )$&lt;/code&gt; and the conditional &lt;code&gt;$P(A, S, C, R | \mathbf{X}_{you})$&lt;/code&gt;, we could measure how the candidate is competitive in the job market; that&amp;rsquo;s the whole point of your engineering education and self-learning. And it potentially answers the following questions:
+
+&lt;ul&gt;
+&lt;li&gt;How effective the customized resume is for passing Screening?&lt;/li&gt;
+&lt;li&gt;How much practice is the threshold for going through Coding Interviews with high probability?&lt;/li&gt;
+&lt;li&gt;What&amp;rsquo;s the most typical skills candidates with high &lt;code&gt;$P(R = 1 | \mathbf{X}_i, A = 1, S = 1, C = 1)$&lt;/code&gt; have?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;This distribution implicitly assumes US job market. If we consider the unconditional &lt;code&gt;$P(A, S, C, R )$&lt;/code&gt; is actually dependent on the geological location area &lt;code&gt;$G$&lt;/code&gt;,  &lt;code&gt;$P(A, S, C, R | G = USA )$&lt;/code&gt; and  &lt;code&gt;$P(A, S, C, R | G = (somewhere) )$&lt;/code&gt; would help understand US job market characteristics. I feel the software-engineer job markets in US and my home country (Japan) are completely different.&lt;/li&gt;
+&lt;li&gt;Typical first steps of CS students are perhaps like this:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;making &lt;code&gt;$P(A = 1 | \mathbf{X}_i )$&lt;/code&gt; bigger:&lt;/strong&gt; Job search by subsets of websites / referrals&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;making &lt;code&gt;$P(S = 1 | \mathbf{X}_i, A)$&lt;/code&gt; bigger:&lt;/strong&gt; To prepare resumes, websites, etc.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;making &lt;code&gt;$P(C = 1 | \mathbf{X}_i, A, S)$&lt;/code&gt; bigger:&lt;/strong&gt; To practice on Leetcode&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;making &lt;code&gt;$P(R = 1 | \mathbf{X}_i, A, S, C)$&lt;/code&gt; bigger:&lt;/strong&gt; To prepare for interviews
+In what condition this behavior is optimal? Each student has different backgrounds and skill sets. One example is winners of ACM-ICPC, whose &lt;code&gt;$P(C = 1| \mathbf{X}_i, A = 1, S = 1 )$&lt;/code&gt; might already be saturated. They are smart enough to focus on other terms, but is there any typical mistakes that normal CS students would take?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;In this post, I attempted how I could think abstractly about US software-engineer job market. There are some findings which I by myself felt interesting:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Your application can happen (&lt;code&gt;$A = 1$&lt;/code&gt;) without you actually applying to the position, if you are recognized as enough skilled in developer communities.&lt;/li&gt;
+&lt;li&gt;Sometimes you cannot apply positions regardless of your technical proficiency due to posting distribution. That is, &lt;code&gt;$\forall \mathbf{X}_i \ P(A = 1| \mathbf{X}_i ) = 0$&lt;/code&gt;. This suggests the model needs to expand covariates &lt;code&gt;$\mathbf{X}_i$&lt;/code&gt; from a technical skill set to more broader technical/non-technical factors, including information survey skills and social skills.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In this semester, I would take one more Bayesian Machine Learning class. I hope that would give me more hints to improve my current formalization.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Very First Story of ggbash</title>
+      <link>/2017/01/07/the-very-first-story-of-ggbash/</link>
+      <pubDate>Sat, 07 Jan 2017 17:07:24 -0500</pubDate>
+      
+      <guid>/2017/01/07/the-very-first-story-of-ggbash/</guid>
+      <description>&lt;!-- BLOGDOWN-BODY-BEFORE
+
+/BLOGDOWN-BODY-BEFORE --&gt;
+
+&lt;!--
+blogdown::install_theme(&#39;crakjie/hugo-base-theme&#39;);
+blogdown::install_theme(&#39;jpescador/hugo-future-imperfect&#39;)
+blogdown::install_theme(&#39;jrutheiser/hugo-lithium-theme&#39;)
+blogdown::install_theme(&#39;tmaiaroto/hugo-redlounge&#39;)
+--&gt;
+&lt;div id=&#34;a-star-which-changed-the-world&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;A Star Which Changed the World&lt;/h2&gt;
+&lt;p&gt;For this entire week, I worked on my project called &lt;a href=&#34;https://github.com/caprice-j/ggbash&#34;&gt;ggbash&lt;/a&gt;. It is a library for drawing graphs or figures in R language in a much simpler way. &lt;!-- removed personal due to wordiness --&gt;&lt;/p&gt;
+&lt;p&gt;I first tweeted about the library last week (Dec. 29th) on my private twitter account. All followers are my friends or acquaintances, and it would be a good review of what I did and would like to do in the project.&lt;/p&gt;
+&lt;p&gt;After posting a few tweets, I found out that the ggbash project on Github earned a star before I knew it. Did I press the button by mistake? If not, who pressed the button? Who gave a star for software that she cannot execute on her machine? At that time there was a &lt;a href=&#34;https://github.com/caprice-j/ggbash/tree/e569eed4631a2ded1ec16653c4d856e9147bbb76&#34;&gt;README&lt;/a&gt; for the library features but no document about installation.&lt;/p&gt;
+&lt;p&gt;It turned out that the star was from my friend, Spinute. He was an internship student of &lt;a href=&#34;https://summerofcode.withgoogle.com/archive/2016/projects/5201565367402496/&#34;&gt;Google Summer of Code 2016&lt;/a&gt; – in which he implemented an optimized version of Ruby data structures called &lt;a href=&#34;https://github.com/spinute/CRope&#34;&gt;Rope&lt;/a&gt;. He has a keen interest in language designs, and we are friends for a long time.&lt;/p&gt;
+&lt;p&gt;He is very friendly with me, friendly enough to frankly criticize my previous projects without jeopardizing our friendship (I like it). Actually, he criticized &lt;strong&gt;all of my past projects&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Looking back the past, I usually worked on “too-personal” projects, in which anyone in the world cannot find value: a brand-new typing software where users can learn any arbitrary keyboard layout (too general goals), a variant of Go board-game with a few eccentric additional rules (which few test players regarded fun), or a translated document website of super minor network software. His comments were fair. I enjoyed programming them, but they did not help others. I usually felt that if I could convince him my project is great, that means something substantial for me as a programmer. Looking back the past, I usually worked on “too-personal” projects, in which anyone in the world cannot find value: a brand-new typing software where users can learn any arbitrary keyboard layout (too general goals), a variant of Go board-game with a few eccentric additional rules (which few test players regarded fun), or a translated document website of super minor network software. His comments were fair. I enjoyed programming them, but simply saying they did not help others. I usually felt that if I could convince him my project is great, that means something substantial for me as a programmer.&lt;/p&gt;
+&lt;p&gt;And he now gave me a GitHub star for such an early-stage product. It was a real bolt from the blue.&lt;/p&gt;
+&lt;p&gt;One more strange thing was that ggbash is a library for R, which is a language he (probably) never used before. I became curious about his action and asked him why he gave me a star for a library which he would probably never use later in his life.&lt;/p&gt;
+&lt;p&gt;His answer was to his eyes ggbash is alike to &lt;a href=&#34;https://github.com/pry/pry&#34;&gt;pry project&lt;/a&gt;. pry is an enhanced version of Ruby interpreter (irb) and has highly sophisticated features for making Ruby programming more comfortable. Now, pry has earned more than 4,500 github stars. He told me that ggbash looked interesting from a design perspective, especially regarding namespace handling and states for queries, and that was the reason of his star.&lt;/p&gt;
+&lt;p&gt;I was surprised by that answer because in the past project, however hard I tried convincing him to play my games, he plainly said that he didn’t think the games are entertaining. Now, he voluntarily said my project is interesting. I felt like I finally got over a long-standing barrier in front of me, and thought I should take this ggbash project a little more seriously.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;stars-from-unseen-developers&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Stars from Unseen Developers&lt;/h2&gt;
+&lt;p&gt;So, one of the non-R programmers considered ggbash is interesting. How about actual R programmers? What kind of impression will they have for ggbash?&lt;/p&gt;
+&lt;p&gt;I opened &lt;a href=&#34;https://twitter.com/yas_tnk&#34;&gt;my public account&lt;/a&gt; and tweeted about ggbash with #rstats hashtag, which is a &lt;a href=&#34;http://r-pkgs.had.co.nz/release.html#promotion&#34;&gt;recommended&lt;/a&gt; way to tell R users a new package arrival.&lt;/p&gt;
+&lt;p&gt;It cannot be too emphasized that this project is just one-week-old and it does not take more than 2 minutes for any users to find a show-stopper. However, surprisingly enough it already earned &lt;a href=&#34;https://github.com/caprice-j/ggbash/stargazers&#34;&gt;16 GitHub stars&lt;/a&gt; in a day. Although three of the stars are “questionable” stars from my friends (they might be from their kindness), I didn’t know any of the other 13 programmers. They just seemed to press the button seeing something on the ggbash repository. And this is the first time that I won a form of approval for my project from other unseen programmers.&lt;/p&gt;
+&lt;p&gt;This might be a small thing for famous, talented programmers who can earn 500 stars regularly, but for me, &lt;strong&gt;this is the first time that the problem I tried to solve is matched with the problem that other programmers also want to solve&lt;/strong&gt;. It is a revolutionary match in my life.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;looking-back-backgrounds-of-epiphany&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Looking Back: Backgrounds of Epiphany&lt;/h2&gt;
+&lt;p&gt;This is perhaps my first (small) success in open-source development, and here I would like to organize my understanding on what led me to this meaningful match.&lt;/p&gt;
+&lt;p&gt;I recognized four factors as essential:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Experience:&lt;/strong&gt; wrote an original shell before&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Unpleasantness:&lt;/strong&gt; spent tens of hours of plotting graphs in R language&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Direction: &lt;/strong&gt; keep the prerequisite of problems to solve in mind&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Long holidays:&lt;/strong&gt; so long that you can start anything if it came up&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div id=&#34;experience-for-a-specific-type-of-software&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;1. Experience for a Specific Type of Software&lt;/h4&gt;
+&lt;p&gt;I wrote a simple shell program in C as my homework in the previous semester. The shell has nothing new in its functionalities, but writing it gave me feelings that writing shell is not so hard and have a lot of room to improve. At the time I never thought of the possibility of shells in R. I just felt that shell is one of the options that I would implement someday somewhere if I feel like.&lt;/p&gt;
+&lt;p&gt;One thing to note here is that although I took a class of formal language theory when I was an undergrad, that experience didn’t directly contribute to the idea of a shell for R. It is true that the framework I learnt in the class was super helpful when I refactored my shell (ggbash v0.1) by &lt;a href=&#34;https://github.com/systemincloud/rly&#34;&gt;lex and yacc&lt;/a&gt; (ggbash v0.2) following my friend’s advice, but for some reason I feel the cursory a-few-hour knowledge about shell was more helpful for the very first idea.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;repetitive-unpleasantness-in-daily-tasks&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;2. Repetitive Unpleasantness in Daily Tasks&lt;/h4&gt;
+&lt;p&gt;The past four months I spent plotting hundreds or even thousands of R graphs by ggplot2. Gradually I remembered most of ggplot2 grammars and tried to find faster ways to do the same thing such as skipping &lt;code&gt;x=&lt;/code&gt; and &lt;code&gt;y=&lt;/code&gt; argument names by positional information or defining a shorter version of functions like &lt;code&gt;p &amp;lt;- geom_point&lt;/code&gt;. But the latter approach significantly contaminates global namespace and ends up name conflicts (like &lt;code&gt;p&lt;/code&gt; by &lt;code&gt;geom_point&lt;/code&gt; and &lt;code&gt;geom_polygon&lt;/code&gt;). The other approaches I tried is to make a big wrapper function for repetitive plottings, but that was too inflexible, and I had to care a lot about how R processes plots internally. Simply put, I have an annoying problem to solve as a programmer in front of me.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;directions-from-an-expert&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;3. Directions from an Expert&lt;/h4&gt;
+&lt;p&gt;During the previous semester, I had a lucky opportunity to attend a lecture meeting of a famous R package developer, Hadley Wickham. Before that lecture, I vaguely thought that I could use my coming holidays for writing my first R package, but I had no idea what is a good package to write. So I just asked him that how he discovered the ideas of each package he previously wrote. He is well known as a prolific R package writer, and most of his packages are widely used as de facto standard packages in R workflow. The success rate of his packages is remarkable – I conjectured that there is some secret “sauce” for making a great package.&lt;/p&gt;
+&lt;p&gt;But the advice he gave me was a very simple one. He advised solving a “real” problem. He recommended a conversation with other R programmers, in which I would find some constantly-appearing issues in the current R toolsets.&lt;/p&gt;
+&lt;p&gt;Unfortunately, I haven’t had an opportunity to talk with other R programmers about what are their issues. But since I did two data analysis project in the past four months and accumulated enough frustrations about the current R toolsets, I managed to find a right problem to solve. 20 GitHub stars would probably be a small sign for its rightness.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;long-holidays&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;4. Long holidays&lt;/h4&gt;
+&lt;p&gt;I was amazed that holidays in America are such long. That is in stark contrast to the hectic schedule during semesters, and I have tons of time to do what I feel like doing.&lt;/p&gt;
+&lt;p&gt;I just spent my first several days for just relaxing or simply enjoying doing nothing. Looking back that turned out to be &lt;em&gt;productively unproductive&lt;/em&gt;, I could say. The day I had an epiphany about the ggbash project was December 28th, 2016, 11 pm at my home. That day I visited a museum called &lt;a href=&#34;https://www.moma.org/&#34;&gt;MoMA&lt;/a&gt; with my friends, strolled around all floors by more than 15,000 steps, had a good Cuban dinner, chatted about how each other spent holidays. I remember that day involves no programming stuff. I just wondered in a totally free way.&lt;/p&gt;
+&lt;p&gt;Actually, in the previous day, I plotted a lot of GIS data using ggplot2 and felt as usual unsatisfied with my makeshift wrapper/shortcut functions. Unfortunately, the result of the exploratory data analysis was also fruitless. So I recognized that the previous day was a bad day. It is a surprise that a revolutionary day follows such a lousy day.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-mattered&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What mattered?&lt;/h2&gt;
+&lt;p&gt;So the timeline of ggbash advent was, hectic school days involving shell programming and data visualization, advice from an expert, unusually long holidays, a bad programming day, and a no-programming day. Then the moment. I believe the reason that I, a developer who couldn’t find the right software problem to solve, succeeded to find a good problem to solve is I went through a great combination of them in a very miraculous order.&lt;/p&gt;
+&lt;p&gt;In addition to the order, the contents were also important. The shell programming had nothing to do with R programming (because it’s a class of C language), but ended up in contributing something for R community. I feel like I’m borrowing some ideas in other languages and remake them for R.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusion&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;ggbash is hosted on &lt;a href=&#34;http://github.com/caprice-j/ggbash&#34; class=&#34;uri&#34;&gt;http://github.com/caprice-j/ggbash&lt;/a&gt; and is still its infancy.&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;!-- BLOGDOWN-HEAD
+
+
+
+
+/BLOGDOWN-HEAD --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hello World</title>
+      <link>/2016/12/31/hello-world/</link>
+      <pubDate>Sat, 31 Dec 2016 17:07:24 -0500</pubDate>
+      
+      <guid>/2016/12/31/hello-world/</guid>
+      <description>&lt;!-- BLOGDOWN-BODY-BEFORE
+
+/BLOGDOWN-BODY-BEFORE --&gt;
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;paste(LETTERS[c(8,5,12,12,15,23,15,18,12,4)], collapse=&amp;quot; &amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;H E L L O W O R L D&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+
+
+&lt;!-- BLOGDOWN-HEAD
+
+
+
+
+/BLOGDOWN-HEAD --&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

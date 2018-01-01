@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.18.1" />
+
+
+<title>Probabilistic View of Software-Engineer Job Market - Caprice&#39;s Blog</title>
+<meta property="og:title" content="Probabilistic View of Software-Engineer Job Market - Caprice&#39;s Blog">
+
+
+
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" href="../../../../css/fonts.css" media="all">
+<link rel="stylesheet" href="../../../../css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="../../../../" class="nav-logo">
+    <img src="../../../../images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="../../../../about/">About</a></li>
+    
+    <li><a href="https://github.com/caprice-j">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/yas_tnk">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">8 min read</span>
+    
+
+    <h1 class="article-title">Probabilistic View of Software-Engineer Job Market</h1>
+
+    
+    <span class="article-date">2017/09/10</span>
+    
+
+    <div class="article-content">
+      
+
+<!-- https://github.com/rstudio/blogdown/blob/master/docs/01-introduction.Rmd -->
+
+<h2 id="background">Background</h2>
+
+<p>I like probability and statistics in that they are useful for organizing thoughts and details. This blog post is an attempt to use those mathmatical frameworks to understand complex things surrounding us like US software-engineer job market.</p>
+
+<h2 id="why-job-market">Why job market?</h2>
+
+<p>I&rsquo;m looking for a full-time job and having a motivation for figuring out how things are connected to each other.</p>
+
+<h2 id="formalization">Formalization</h2>
+
+<p>Let <code>$\mathbf{C}$</code> and <code>$\mathbf{J}$</code> be the sets of software-engineer <strong>job candidates</strong> and <strong>job positions</strong>, respectively. For notational conventions, I use two numbers <code>$n$</code> and <code>$m$</code> as <code>$|\mathbf{C}| = n$</code> and <code>$|\mathbf{J}| = m$</code>. Then, <strong>the US job market</strong> <code>$\mathbf{U}$</code> is a tuple of candidates and positions, that is, <code>$ \mathbf{U} = (\mathbf{C}, \mathbf{J})$</code>.</p>
+
+<p>Let <code>$Y_{ij}$</code> (<code>$i \in \{1, 2, \ldots, n\} = \mathbf{C}, j \in \{1, 2, \ldots, m\} = \mathbf{J}$</code>) be a random variable denoting a job offer to a candidate <code>$i$</code> for a software-engineer position <code>$j$</code>. The statement <code>$Y_{ij} = 1$</code> means &ldquo;an i-th candidate got the j-th job offer&rdquo; and <code>$Y_{ij} = 0$</code> means &ldquo;the company didn&rsquo;t provide the candidate an offer&rdquo;. Note that <code>$\sum_{i = 1}^{n}{Y_{ij}} = 1$</code> does not necessarily hold since some positions are offered to multiple candidates.</p>
+
+<p><code>$Y_{ij}$</code> can be decomposed into four binary random variables, <code>$A_{ij}$</code>, <code>$S_{ij}$</code>, <code>$C_{ij}$</code>, and <code>$R_{ij}$</code>. For simplicity, I will write them by <code>$Y$</code>, <code>$A$</code>, <code>$S$</code>, <code>$C$</code>, and <code>$R$</code>, respectively (only for <code>$Y$</code>, I&rsquo;ll sometimes write explicitly as <code>$Y_{ij}$</code>, though.) These four variables encode whether the candidate goes through the processes of <strong>Application</strong>, <strong>Screening</strong>, <strong>Coding Interview</strong>, and <strong>Remaining Processes</strong>, respectively. For example, <code>$A = 1$</code> means the candidate applied to a job position, and <code>$A = 0$</code> means he or she did not. And <code>$S = 1$</code> means &ldquo;the candidate passed Screening.&rdquo; Screening can have multiple phases like resume screening and then background screening (e.g. GPA), but here we simply denote them by a single variable <code>$S$</code>.</p>
+
+<p>To put it another way, the random variable <code>$Y_{ij}$</code> can be described as a random vector <code>$\mathbf{Y}_{ij} = (A, S, C, R)$</code>. The random variable <code>$Y_{ij}$</code> takes a value of 1 if and only if its corresponding random vector <code>$\mathbf{Y}_{ij}$</code> takes the value of <code>$(1, 1, 1, 1)$</code>. Random varibles <code>$Y_{ij}$</code> are useful for examining <strong>results</strong> (offer or not), and random vectors <code>$\mathbf{Y}_{ij}$</code> are useful for examining <strong>processes</strong>.</p>
+
+<p>As we are interested in getting the position, we would implicitly or explicitly think about the probability that the company provides a (j-th) job offer to a particular candidate <code>$i$</code> with a technical skill set <code>$\mathbf{X}_i$</code>. That is, <code>$P(\mathbf{Y}_{ij} = \mathbf{1} | \mathbf{X}_i)$</code>. Then, you would try to know more about this probability by looking at some numbers on news websites, by asking friends who got their positions recently, or by integrating all the information you obtained. Or, you might focus on expanding your skill set <code>$\mathbf{X}_i$</code>.</p>
+
+<p>BY using a formula for decomposing joint probability into the product of conditional and merginal probabilities, we can make our inference as the following equalities:</p>
+
+<p><code>$$
+\begin{align}
+P( \mathbf{Y} | \mathbf{X}_i )
+ &amp; = P( A, S, C, R | \mathbf{X}_i ) 
+ \\ &amp; = P(A | \mathbf{X}_i ) P(S | \mathbf{X}_i, A)
+ \\ &amp; \ \ \ \ \ P(C | \mathbf{X}_i, A, S ) P(R | \mathbf{X}_i, A, S, C)
+\end{align}
+$$</code></p>
+
+<p><code>$P(A, S, C, R)$</code> is a four-dimensional discrete probability distribution which underlies everywhere in the (software-engineer) US job markets, and <code>$P(A, S, C, R | \mathbf{X}_i)$</code> is its personalized version. In other words, for a candidate having a skill set <code>$X_i$</code>, how hard is it to get the job? Everything you obtained from various information sources can be embedded in this framework or its varients. While more sophisticated formalizations are possible, I am happy enough with this (over-)simplified view; that is, this model basically claims if you apply for a job (<code>$A = 1$</code>), pass Screening (<code>$S = 1$</code>), show your coding skills in Coding Interviews (<code>$C = 1$</code>), and do reasonably well whatever you are asked during the Remaining Processes (<code>$R = 1$</code>), you would get a job offer (<code>$\mathbf{Y} = \mathbf{1}$</code>). If we consider each <code>$Y$</code> is an &ldquo;edge&rdquo; between a candidate node <code>$i$</code> and a job position node <code>$j$</code>, <code>$\mathbf{Y} = \mathbf{1}$</code> means we draw an edge between the two nodes in a <a href="https://en.wikipedia.org/wiki/Bipartite_graph">Bipartite graph</a> <code>$\mathbf{U} = (\mathbf{C}, \mathbf{J}, \mathbf{Y}) $</code> where <code>$\mathbf{Y}$</code> is a n x m matrix whose (i, j) element is <code>$Y_{ij}$</code>.</p>
+
+<p>We could discuss any part of this probabilistic model, and I will pick <code>$P(A | \mathbf{X}_i )$</code> as an example for getting the sense of the job market&rsquo;s mechanism.</p>
+
+<h2 id="about-p-a-mathbf-x-i">About <code>$P(A | \mathbf{X}_i )$</code></h2>
+
+<p><code>$P(A | \mathbf{X}_i )$</code> is a probability distribution showing how likely the candidate will apply to a particular position, given the candidate&rsquo;s technical skill set.</p>
+
+<blockquote>
+<p>&ldquo;Isn&rsquo;t that just the problem of willpower and braveness?&rdquo;</p>
+</blockquote>
+
+<p>Well, it&rsquo;s actually not. What I observed is the application variable <code>$A \in \{0, 1\}$</code> can automatically become zero or one irrespective of whether we want to apply for the job. There are at least two factors:</p>
+
+<ul>
+<li><strong>Reference</strong>: I got several job interviews via references, most of them were not in the public job markets such as company&rsquo;s websites. Therefore, there was almost no hope to know about the positions through the Internet. This seems to happen in the case that the company&rsquo;s <strong>founders already belong to large existing developer communities</strong>; they can quickly recruit trustable developers from previous communities. An interesting aspect of this hiring process is that your technical skill set <code>$\mathbf{X}_i$</code> affects only when you have some access to the community. No matter how skilled you are in the particular tasks, your <code>$P(A | \mathbf{X}_i )$</code> would be zero unless you are in the developer community. This suggests even if you are not actively applying to jobs, it might be better to belong to communities and converse with others for potential career paths. From that perspective, <code>$A = 1$</code> does not actually mean &ldquo;the candidate applied to a job position&rdquo; but means <strong>&ldquo;the engineer is recognized by recruiters as a potential candidate.&rdquo;</strong> Willpower cannot make deterministically the variable <code>$A$</code> take a particular value. Also, having lots of automatic job applications could be annoying &ndash; I know one person who is working in a prestegious company and gets tons of recruiting messages.</li>
+</ul>
+
+<!-- I saw PhD students tend to get their positions through their faculty advisors; becoming a PhD student already requires lots of skills and achievements, so it depends on our formalization whether "being a researcher in academia" is in `$\mathbf{X}_j$`. I wonder if this sometimes leads to inefficiency because some master/undergrad students had multi-year (research) experience in industry, and they could be the best match for the position. But I know, hiring process is not afraid of false negatives; contacting PhD students is the safest bet. -->
+
+<ul>
+<li><strong>The number of job posting websites you know</strong>: while I browsed several job posting sites last year, I found that some companies posted their job descriptions only in subsets of websites. They might want to get a small number of candidates (because some companies get a tremendous number of applications), they might be doing A/B tests for job posting sites, or they thought posting to hundreds of websites is not worth their time. Regardless of the truths, if you don&rsquo;t find a particular post for the job <code>$i$</code>, your <code>$P(A = 1 | \mathbf{X}_i )$</code> is zero unless you get some referrals.</li>
+</ul>
+
+<h3 id="discussion">Discussion</h3>
+
+<p>There are several other thoughts about <code>$P( A, S, C, R | \mathbf{X}_i ) $</code>:</p>
+
+<ul>
+<li>If we measure KL-divergence between the unconditional <code>$P(A, S, C, R )$</code> and the conditional <code>$P(A, S, C, R | \mathbf{X}_{you})$</code>, we could measure how the candidate is competitive in the job market; that&rsquo;s the whole point of your engineering education and self-learning. And it potentially answers the following questions:
+
+<ul>
+<li>How effective the customized resume is for passing Screening?</li>
+<li>How much practice is the threshold for going through Coding Interviews with high probability?</li>
+<li>What&rsquo;s the most typical skills candidates with high <code>$P(R = 1 | \mathbf{X}_i, A = 1, S = 1, C = 1)$</code> have?</li>
+</ul></li>
+<li>This distribution implicitly assumes US job market. If we consider the unconditional <code>$P(A, S, C, R )$</code> is actually dependent on the geological location area <code>$G$</code>,  <code>$P(A, S, C, R | G = USA )$</code> and  <code>$P(A, S, C, R | G = (somewhere) )$</code> would help understand US job market characteristics. I feel the software-engineer job markets in US and my home country (Japan) are completely different.</li>
+<li>Typical first steps of CS students are perhaps like this:
+
+<ul>
+<li><strong>making <code>$P(A = 1 | \mathbf{X}_i )$</code> bigger:</strong> Job search by subsets of websites / referrals</li>
+<li><strong>making <code>$P(S = 1 | \mathbf{X}_i, A)$</code> bigger:</strong> To prepare resumes, websites, etc.</li>
+<li><strong>making <code>$P(C = 1 | \mathbf{X}_i, A, S)$</code> bigger:</strong> To practice on Leetcode</li>
+<li><strong>making <code>$P(R = 1 | \mathbf{X}_i, A, S, C)$</code> bigger:</strong> To prepare for interviews
+In what condition this behavior is optimal? Each student has different backgrounds and skill sets. One example is winners of ACM-ICPC, whose <code>$P(C = 1| \mathbf{X}_i, A = 1, S = 1 )$</code> might already be saturated. They are smart enough to focus on other terms, but is there any typical mistakes that normal CS students would take?</li>
+</ul></li>
+</ul>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>In this post, I attempted how I could think abstractly about US software-engineer job market. There are some findings which I by myself felt interesting:</p>
+
+<ul>
+<li>Your application can happen (<code>$A = 1$</code>) without you actually applying to the position, if you are recognized as enough skilled in developer communities.</li>
+<li>Sometimes you cannot apply positions regardless of your technical proficiency due to posting distribution. That is, <code>$\forall \mathbf{X}_i \ P(A = 1| \mathbf{X}_i ) = 0$</code>. This suggests the model needs to expand covariates <code>$\mathbf{X}_i$</code> from a technical skill set to more broader technical/non-technical factors, including information survey skills and social skills.</li>
+</ul>
+
+<p>In this semester, I would take one more Bayesian Machine Learning class. I hope that would give me more hints to improve my current formalization.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="../../../../index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../../../../images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+    
+<script src="../../../../js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
